@@ -1,0 +1,59 @@
+\section{Termination}
+
+The following recursive function searches for an element in a sorted array, but
+it has a bug. You may run Stainless on this file to spot it. Fix the issue, and
+add a |decreases| clause at the beginning of the function to ensure that Stainless
+can prove the function terminating.
+
+\lstinputlisting{BinarySearch1.scala}
+
+In Stainless, all functions are required to have a measure (either inferred
+automatically, or written in a |decreases| clause by the user). The system in
+its current design would be unsound (we would be able to prove false postconditions
+or assertions) if we allowed non-terminating functions.
+
+
+\section{Imperative Features}
+
+Stainless supports some imperative features, such as local mutable variables,
+while loops, return statements, and more (see \url{https://epfl-lara.github.io/stainless/imperative.html}).
+Stainless transforms these constructs into functional programs.
+
+Using a while loop and a return statement, rewrite the |findIndexOpt| function:
+\begin{lstlisting}
+def findIndexOpt(ar: Array[Int], v: Int):
+                                                 Option[Int] = {
+
+}
+\end{lstlisting}
+that finds an index of element |v|
+in a sorted array |ar|. Prove that, when your
+function returns |Some(i)|,
+then |ar(i) == v|. To prove that array indices are within bounds, you will need a
+loop invariant, for which the syntax is:
+
+\begin{lstlisting}
+(while(...) {
+  decreases(...)
+  ...
+}).invariant(...)
+\end{lstlisting}
+Does Stainless help you if you make an overflow mistake when computing
+the middle of an interval using bounded arithmetic?
+
+Note that while loops require |decreases| clauses as well (when the measure
+cannot be inferred automatically), because they are translated into recursive
+functions by Stainless.
+To see how the while loop and the return statement are transformed,
+you may run the command below on your file. Stainless
+has a pipeline containing several phases, and |ReturnElimination| is the one
+that removes while loops and return statements. The |--debug-objects| option tells
+Stainless to only display the |findIndexOpt| function in the debug output.
+
+\begin{lstlisting}
+stainless --debug=trees --debug-objects=findIndexOpt --debug-phases=ReturnElimination FindIndex.scala
+\end{lstlisting}
+
+As a harder exercise, identify and prove a stronger postcondition of |findIndexOpt|:
+what can we state in the postcondition for the case when the function returns |None|?
+What assumptions and loop invariants do we need to be be able to prove this postcondition?

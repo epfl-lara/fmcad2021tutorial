@@ -1,0 +1,24 @@
+\section{Properties and Proofs}
+
+How do we state properties in Stainless? We write a property $\forall x:T. F(x)$ as a function |lemmaF| defined by:
+\lstinputlisting{property0.scala}
+When we wish to instantiate the property taking $x$ to be some specific value $v$, we insert a function invocation
+|lemmaF(v)| into the part of the code where we need this property. Suppose that proving property $\forall x:T. F(x)$
+is not automatic. Then verification of |lemmaF| itself will fail, as stated. If $F(x)$, for example, follows from
+$G(x,x+1)$ that is established in |lemmaG(x,y)|, then we can state and prove |lemmaF| as:
+\lstinputlisting{property1.scala}
+Thus, we can adopt the following strategies for libraries of lemmas:
+\begin{itemize}
+\item introduce a function for a lemma
+\item use a function parameter for each universally quantified variable
+\item write lemma statement in the |ensuring| clause
+\item use the body of the function to encode a high-level proof,
+  with function invocations corresponding to applying previously proven lemmas.
+\end{itemize}
+Purely universal statements can return |Unit| type. For existential statements,
+we can often state their constructive Skolemized form and return a witness
+for the existential quantifier from the lemma.
+
+It can be helpful to examine some proofs of properties in the |List| library.
+Remarkably, we can even make recursive invocations of functions in their bodies.
+Which mathematical reasoning principle do such proofs correspond to?

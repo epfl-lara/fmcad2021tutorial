@@ -1,0 +1,113 @@
+\documentclass{fmcad}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{sansmath}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+%\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+
+\usepackage[final]{listings}
+\input{lstsettings}
+
+\begin{document}
+
+\title{Stainless Verification System Tutorial}
+\author{
+  \IEEEauthorblockN{Viktor Kun\v{c}ak}
+  \IEEEauthorblockA{\textit{LARA Research Group} \\
+    \textit{School of Computer and Communication Sciences} \\
+    \textit{EPFL}\\
+    Lausanne, Switzerland \\
+    viktor.kuncak@epfl.ch}
+\and
+  \IEEEauthorblockN{Jad Hamza}
+  \IEEEauthorblockA{\textit{LARA Research Group} \\
+    \textit{School of Computer and Communication Sciences} \\
+    \textit{EPFL}\\
+    Lausanne, Switzerland \\
+    jad.hamza@epfl.ch}
+}
+
+\maketitle
+
+\begin{abstract}
+  Stainless ( https://stainless.epfl.ch ) is an open-source tool for
+  verifying and finding errors in programs written in the
+  Scala programming language. This tutorial will not assume
+  any knowledge of Scala. It aims to get first-time users
+  started with verification tasks by introducing the
+  language, providing modelling and verification tips, and
+  giving a glimpse of the tool's inner workings (encoding
+  into functional programs, function unfolding, and using
+  theories of satisfiability modulo theory solvers Z3 and
+  CVC4).
+
+  Stainless (and its predecessor, Leon) has been developed
+  primarily in the EPFL's Laboratory for Automated Reasoning
+  and Analysis in the period from 2011-2021. Its core
+  specification and implementation language are typed
+  recursive higher-order functional programs (imperative
+  programs are also supported by automated translation to
+  their functional semantics).  Stainless can verify that
+  functions are correct for all inputs with respect to
+  provided preconditions and postconditions, it can prove
+  that functions terminate (with optionally provided
+  termination measure functions), and it can provide
+  counter-examples to safety properties.  Stainless enables
+  users to write code that is both executed and verified
+  using the same source files. Users can compile programs
+  using the Scala compiler and run them on the JVM. For
+  programs that adhere to certain discipline, users can
+  generate source code in a small fragment of C and then
+  use standard C compilers.
+\end{abstract}
+
+\begin{IEEEkeywords}
+  verification, formal methods, proof, counter-example, model checking,
+  Scala, functional programming, satisfiability modulo theories
+\end{IEEEkeywords}
+
+\input{intro}
+\input{start}
+\input{functional}
+\input{queue}
+\input{proofs}
+\input{digits}
+\input{imperative}
+\input{design}
+  
+   \bigskip
+   \noindent 
+  {\textbf{Acknowledgements.}}\ 
+   Research on Stainless has been funded in part
+   by (i) the Swiss Science Foundation grants 200021\_132176, 200020\_138204, 200020\_146649, 200021\_144503, 200020\_159949,
+   and 200021\_175676.   
+   (ii) European Research Council (ERC) Starting Grant PE6-306484-IMPRO, 
+   (iii) The Swiss State Secretariat for Education,
+   Research and Innovation, Swiss Space Office grant ``Embedded Flight Software Verification--ESOVER'' and
+   (iv) the envelope budget for the LARA group from the EPFL School of Computer and Communication Sciences.
+
+   Stainless and Inox were created from parts of Leon code by Nicolas Voirol.
+   In addition to Nicolas and the two authors of this tutorial, contributors to Stainless and Inox include:
+   Roman Ruetschi, Georg Stefan Schmid, Marco Antognini, Ravichandhran Madhavan, Etienne Kneuss,    
+   Lars Hupel, Emmanouil Koukoutos, Philippe Suter, Roman Edelmann, Utkarsh Upadhyay, Ivan Kuraj, Sandro Stucki,
+   Ruzica Piskac, Tihomir Gvero,  Czipó Bence, Sumith Kulal, Lucien Iseli,   
+   Regis Blanc, Iulian Dragos, Dragana Milovan\v{c}evi\'c, Antoine Brunner, Mirco Dotta,   
+   Yann Bolliger, Rodrigo Raya, Samuel Gruetter, Mika\"el Mayer, Guillaume Massé.
+   Romain Jufer worked with Jad Hamza on a fork for smart contract verification and Solidity code generation,
+   Romain Edelmann and Rodrigo Raya developed an interactive proof assistant concept based on Inox.
+   Regis Blanc developed a Scala library for
+   input and output of SMT-LIB files. ScalaZ3 interface to the Z3 dynamically
+   linked library additionally received contributions from Ali Sinan K\"oksal
+   and Thorsten Tarrach.
+   Contributors to Stainless Bolts case studies include additionally Samuel Chassot and Cl\'ement Burgelin. We thank
+   users of Stainless from Ateleris GmbH including Simon Felix, Filip Schramka, and Ivo Nussbaumer. We also thank
+   MSc students at EPFL taking the Formal Verification course, completing interesting case studies and identifying bugs in the system.
+\bibliographystyle{IEEEtran}
+\bibliography{main}
+
+\end{document}

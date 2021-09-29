@@ -1,0 +1,89 @@
+\section{Design Principles}
+
+A number of verification systems have been developed in the past decades.
+Stainless tries to borrow many of the features that others and us have
+found useful in other systems. At the same time, it is driven by a somewhat
+unique combination of principles, whose understanding may help set the
+expectations from the tool.
+
+\subsection{Searching for Both Proofs and Counterexamples}
+
+From the beginning
+\cite{SuterETAL11SatisfiabilityModuloRecursivePrograms},
+the system was designed to search for both
+counterexamples and proofs in a unified iterative loop.
+Thanks to this design, on many programs Stainless behaves
+like a combination of a bounded model checker and a
+k-inductive prover such as \cite{kind2}: we can often expect a
+definite answer, whether the program verifies or has a
+counterexample.
+
+\subsection{Recursive programs as foundation, not transition systems.}
+Operational semantics tells us that we can translate functional
+(and many other) programs into transition systems. This has even
+been used in verification tools with success \cite{}. Nonetheless, we believe that it carries
+significant overhead, especially for proofs. Thus, like in ACL2 \cite{More2019milestones,DBLP:conf/ijcai/BoyerM73} our intermediate
+representation is based on recursive functions \cite{SuterETAL11SatisfiabilityModuloRecursivePrograms}
+and we hope to leverage high-level structure to make verification more feasible, much like
+Liquid Haskell \cite{vazou2016liquid} which needs to be complemented with symbolic execution
+to also generate counterexamples \cite{DBLP:conf/pldi/HallahanXBJP19}.
+Consequently,
+iterative unfolding of our recursive functions in Stainless gives a different sequence of approximations 
+than the one we would obtain by representing programs using control-flow graphs and explicit stacks
+\cite{pluscal}.
+
+\subsection{Top-down verification for each function.}
+Stainless verifies each desired function one by one. When verifying a function $f$,
+it does not check which other parts of code invoke $f$. In particular, it will, in its current design, not
+infer preconditions for a function automatically. Preconditions
+need to be explicitly specified using a |require| clause
+at function entry. On the other hand, when Stainless examines the body of $f$ and finds a function $g$, then it
+will examine not only the specification of $g$, but also its body. If $g$ is recursive, this process will continue,
+with a check for counterexample and check for unsatisfiability performed at each step. This process
+treats functions more transparently than some modular verifiers. The process is also breadth-first, instead
+of having the form of directed rewriting as in some other systems. The effectiveness
+of this process is explained in part by the fact that it results in a decision procedure
+for certain classes of functions \cite{DBLP:conf/cade/Sofronie-Stokkermans09,
+  SuterETAL10DecisionProceduresforAlgebraicDataTypesAbstractions,
+  DBLP:journals/jar/PhamGW16}. Furthermore, we continue to be surprised
+by how well this simple strategy works in practice, even if we have no theoretical reason to know that it will succeed.
+
+\subsection{Scala subset as the input language.}
+Stainless uses Scala as a language that has substantial user base,
+regularly ranked higher than Haskell and LISP in Stack Overflow developer surveys \cite{surveys},
+which is relevant for maintaining the correspondence between
+what executes and that is verified. As a functional language, Scala
+contains an expressive purely functional fragment which can be used
+for specification and modelling. The users of Stainless thus largely
+avoid the need to learn a separate specification language, because
+functional programs are a great specification vehicle. At the same time,
+the system supports polymorphism and subtyping with a type system
+that eliminates many nonsensical programs before they waste user's time inside the program verifier's loop.
+That said, Stainless purposely avoids by design certain Scala 2 features, such as null references and complex initalization.
+Other features, such as machine integers, are modelled precisely: it is certainly
+necessary in practice to have machine integers of various width available (for example, 32-bit Int and 64-bit Long),
+but it is also helpful to use unbounded BigInt data types, especially for specifications, and these different types should
+not be confused.
+Stainless provides the user a choice and maps these data types and operations on them to the appropriate
+types and theories inside SMT solvers \cite{BlancKuncak15SoundReasoningIntegralDataTypes}.
+Subtyping is currently implemented via a translation into a language with disjoint types \cite{voirol2019}; its
+use requires additional encoding and may slow down verification. Imperative features are supported
+as a choice of either unshared mutable state \cite{blanc2017} or using a model \cite{schmid2021proving}
+that, at user level, is similar to dynamic frames \cite{DBLP:conf/fm/Kassios06} of Dafny \cite{DBLP:conf/lpar/Leino10b}.
+
+\subsection{Embracing SMT solver theories, avoiding quantifiers.}
+Instead of using axioms to encode program semantics and data types,
+Stainless leverages algebraic data types, sets, and arrays.
+Stainless thus currently emits quantifier-free queries to solvers (either Z3 or CVC4).
+The hope with this choice is that SMT solvers will remain predictable for both
+proofs and counterexamples. In contrast, the use of quantifiers may lead to more automation and sometimes excellent performance for
+proofs, but quickly leads
+outside of the space where the solvers can reliable report counterexamples.
+
+\subsection{Executability of programs and specifications.} In Stainless we aim to write programs
+that can be compiled using the standard Scala compiler. Specification constructs
+in Stainless are defined in a Scala library and they have dummy execution semantics.
+In some cases, even such dummy semantics may result in overhead, so we have developed passes
+that eliminate some of the specification code altogether.
+In addition, Stainless has a subset that can be used to generate C code suitable for embedded
+systems, an enhanced version of such functionality developed for Leon \cite{antognini17genc}.

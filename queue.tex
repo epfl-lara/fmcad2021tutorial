@@ -1,0 +1,23 @@
+\section{Amortized Queue}
+
+We have found Stainless to work very well for verification of purely functional data structures.
+Let us examine the case of an amortized queue such as the one from \cite[Section 5.2, Page 42]{Okasaki98PurelyFunctionalDataStructures}.
+We will start by writing down an \emph{abstract class}. In this class we define methods with dummy bodies denoted by |???|
+but with |ensuring| clauses that specify the desired behavior of operations. To specify the behavior we use |toList| function,
+which is also left unspecified in the abstract class.
+\lstinputlisting{Queue0.scala}
+When we extend the abstract class, Scala requires us to define |toList|, whereas Stainless ensures that our implementation
+meets the specifications in the abstract class. We can implement an inefficient queue using a single list.
+\lstinputlisting{SimpleQueue.scala}
+Stainless successfully verifies that the properties required by a queue are satisfied by this implementation.
+Even if correct, this implementation is inefficient because |enqueue| takes linear time in the current number of queue elements.
+We will thus try to develop and prove correct the implementation like one from \cite[Section 5.2, Page 42]{Okasaki98PurelyFunctionalDataStructures} that uses two lists and that has constant time amortized complexity.
+\lstinputlisting{Queue1.scala}
+The |toList|, which we use only for specification, gives us a hint on how to implement |enqueue| efficiently.
+For |dequeue| we will need a |reverse| operation on lists, which we can implement in linear time.
+Despite its complexity, our version of |dequeue| will be verified automatically.
+As for |enqueue|, its implementation is simple, yet its proof turns out to require some well known property
+of lists that we need to tell Stainless to invoke explicitly!
+
+\lstinputlisting{EnqueueTemplate.scala}
+

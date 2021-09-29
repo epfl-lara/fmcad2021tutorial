@@ -1,0 +1,53 @@
+\section{Getting Started}
+
+Stainless is a command line application that runs on the Java virtual machine, version 1.8.
+We mostly test it on Ubuntu Linux. We provide releases for Linux and Mac. 
+Others use it on Windows as well, where it may be simplest to use Windows Subsystem for Linux
+to get started. Download the release file from 
+\begin{center}
+\url{https://github.com/epfl-lara/stainless/releases/}
+\end{center}
+then unzip the file and put a link to |stainless| in your path.
+
+The following is a simple program, call it |MaxBug.scala|, containing
+a function |max|. Max attempts to compute maximum of the two 32-bit integers by
+returning one of them, depending on the sign |d| of their difference.
+\lstinputlisting{MaxBug.scala}
+We use |object| to group functions into modules. We define functions using |def|
+and provide their parameters (here: |x| and |y|) and their types, as well as the return type.
+We define local immutable values using |val| keyword. Scala infers the type of |d| as |Int|.
+
+After the usual body, we introduced an |ensuring| statement. The first identifier, |res|,
+binds the return value of the function. After the arrow |=>| we state the property we would
+like the result to satisfy. In this case, the result should be greater than each argument
+and it should be equal to one of them.
+
+Invoke |stainless MaxBug.scala| and you may get output containing some of the following.
+\lstinputlisting[language=console]{MaxBugOut.txt}
+Use |--timeout=5| to set time out to 5 seconds.
+and |--no-colors| to request clean ASCII output with parsable line numbers in reports.
+
+Why did Stainless report a counterexample? Indeed, executing |max|
+with the two provided values computes using signed 32-bit arithmetic the value |-11| for |d|,
+so the function returns |y| as the result |res| so |y <= res| is false.
+We can repair this example in at least two ways:
+\begin{itemize}
+\item Use |if (x <= y)| instead of the value |d|.
+\item Use |BigInt| instead of |Int|, thus adopting unbounded integers instead signed 32-bit ones.
+\end{itemize}
+If you run your program several times, you may notice that Stainless reports that a valid verification
+condition was persistently cached (inside |.stainless-cache|). You can turn off caching with |--vc-cache=false|.
+
+You may find the |--watch| option useful when modifying a file several times, which makes Stainless
+run verification whenever the source file is changed.
+
+By default, Stainless uses a version of |z3| (4.7.1) which is packaged inside Stainless (|--solvers=nativez3|). This allows
+Stainless to interact with |z3| through Java calls. You may also use an externally built version of
+|z3| (for instance, |z3 4.8.12| is shipped with the release) by specifying |--solvers=smt-z3|.
+In that case, Stainless will communicate with |z3| using SMT-LIB files, which might be slower than
+Java calls, but has two benefits. First, you get to use the newest release of |z3|. Second,
+|smt-z3| is more likely to respect timeouts than |nativez3|.
+
+You can also use CVC4 as the solver if you download and put |cvc4| executable on your path.
+You can use both with |--solvers=smt-cvc4,smt-z3|. Use |--debug=smt| to preserve the
+generated SMT-LIB files and look for them in the |smt-sessions| directory.

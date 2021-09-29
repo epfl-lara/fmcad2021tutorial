@@ -1,0 +1,15 @@
+MaxBug.scala:7:49: warning:  => INVALID
+  x <= res && y <= res && (res == x || res == y))
+                                              ^
+warning: Found counter-example:
+warning:  y: Int -> -2147483648
+          x: Int -> 1
+Verified: 0 / 3
+  
+ stainless summary 
+                                                                       
+MaxBug.scala:3:13: max Subtraction overflow invalid   
+MaxBug.scala:7:37: max postcondition        invalid   
+MaxBug.scala:7:49: max postcondition        invalid   
+...................................................
+total: 3    valid: 0    (0 from cache) invalid: 3    

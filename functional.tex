@@ -1,0 +1,32 @@
+\section{Verified Functional Programming}
+
+We will now implement a simple function that computes
+differences of successive elements of a list.
+Let us start our file with |import stainless.collection._|
+so we can use the immutable |List| library of Stainless.
+You can find the sources of this and other library files at following URL:
+\begin{center}
+  \url{https://github.com/epfl-lara/stainless/blob/master/frontends/library/stainless/collection/List.scala}
+\end{center}
+Let's try to write a function |diffs| that takes a list of elements, for example
+$x_1, x_2, x_3, x_4$ and keeps the first element and then follows it by the list of their differences. In this case
+we would like to obtain $x_1, x_2 - x_1, x_3 - x_2, x_4 - x_3$. For empty and one-element list the output equals input.
+Let us write this as the default implementation. We can also state the example of four-element list as a symbolic test
+case. To state it, we use another function with a dummy body and a postcondition that invokes |diffs|.
+\lstinputlisting{Diffs0.scala}
+After developing a function that meets this partial specification, we can see whether it meets a stronger specification.
+For example, we can define the inverse function |undiff| that takes $y_0, y_1, \ldots, y_n$ and computes
+$y_0, y_0 + y_1, \ldots, \sum_{i=0}^n y_i$. Being masters of functional programming, we recognize that this is just
+a prefix sum of a list, so we define it by
+\lstinputlisting{Undiffs.scala}
+where |scanLeft| is defined in our |List| library.
+Now we can add as the |ensuring| condition of |diffs| the condition
+|ensuring (res => (undiff(res) == l))|. It so happens that Stainless
+proves this condition automatically using its algorithm. As an off-line exercise,
+try to prove this result with pen and paper. This might give you a sense on
+how Stainless is able to prove this property.
+
+The algorithm of Stainless initially treats called functions as unknown (uninterpreted) mathematical
+functions. It then iteratively expands each
+call by defining the function to be equal to one unfolding of its body and also inserts the |ensuring| clause
+as an assumption.

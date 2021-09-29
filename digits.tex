@@ -1,0 +1,9 @@
+\section{Digits}
+
+For built-in types such as |Int| and |Long|, the SMT solvers will successfully
+reason about their bitwidth representation. What if we wish to reason about the bits of arbitrarily
+large numbers? As a simple example, let us define simple addition as a recursive function on lists
+of bits.
+\lstinputlisting{AddDigits0.scala}
+How can we state that such addition is commutative? How can we prove it in Stainless?
+As an off-line exercise, think about how we can prove that this corresponds to actual addition on integers (|BigInt|).

@@ -1,0 +1,60 @@
+\section{Introduction}
+
+Stainless \cite{HamzaETAL19SystemFR} 
+is a tool for verifying and finding errors in
+programs written in a subset of the Scala~\cite{OderskyETAL20ProgrammingScala} programming language.
+Stainless is open source (distributed under Apache license) and hosted on GitHub at:
+\begin{center}
+  \url{https://github.com/epfl-lara/stainless/} \\
+  \url{https://epfl-lara.github.io/stainless/}
+\end{center}
+Stainless (and its predecessor, Leon) have
+been developed primarily in the EPFL's Laboratory for
+Automated Reasoning and Analysis in the period from
+  2011-2021, see, in particular \cite{HamzaETAL19SystemFR, voirol2019} as well as
+  \cite{schmid2021proving,MadhavanKuncak17Memoization,blanc2017,
+    VoirolETAL15CounterExampleCompleteVerificationHigherOrderFunctions,
+    BlancKuncak15SoundReasoningIntegralDataTypes, Kuncak15DevelopingVerifiedSoftwareUsingLeonNFM,
+    KoukoutosKuncak14CheckingDataStructurePropertiesOrdersMagnitudeFaster,
+    BlancETAL13VerificationTranslationRecursiveFunctions, KoeksalETAL12ConstraintsControl,
+    SuterETAL11SatisfiabilityModuloRecursivePrograms,SuterETAL10DecisionProceduresforAlgebraicDataTypesAbstractions}.
+The core specification and implementation
+language of Stainless are typed recursive higher-order
+functional Scala programs. It also supports certain
+imperative programs \cite{schmid2021proving,blanc2017}. Stainless can verify that functions
+are correct for all inputs with respect to provided
+preconditions and postconditions, it can prove that
+functions terminate (with optionally provided termination
+measure functions), and it can also provide
+counter-examples to safety properties.
+
+Stainless can be used to write programs that are directly
+executable and proven correct. In particular, because it
+uses Scala's syntax and type system, users can execute
+Stainless programs using the standard Scala compiler
+(version 2.12.13 at the time of writing). In addition, there are passes
+that eliminate non-executable (ghost) code from source to make sure
+that it does not result in run-time overhead after compilation. For
+programs that adhere to certain discipline the ``genc'' option of Stainless can
+be used to generate C source code that compiles with common
+compilers such as gcc.
+
+\subsection{Outline}
+  
+In this tutorial, we show examples
+demonstrating how to use Stainless to develop verified
+models and programs. We will mostly use basic notation
+for functional programming, which we will introduce along the way.
+We will use Stainless version 0.9 or later.
+
+In addition to basic introduction, we will suggest
+strategies for specifying programs and helping Stainless
+prove them correct. An example is using lemmas and proving
+them by induction expressed through terminating recursion.
+
+To help users be more effective when using Stainless, we
+also outline key mechanisms that Stainless uses
+in proof and counterexample search: encoding into
+functional programs, function unfolding, and using rich
+theories of satisfiability modulo theory solvers Z3 and
+CVC4.

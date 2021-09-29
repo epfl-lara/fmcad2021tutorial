@@ -1,0 +1,60 @@
+\lstdefinelanguage{console}{
+%   morekeywords={,invalid,},
+   basicstyle={\footnotesize\ttfamily\ourlstcolor},
+   keywordstyle={\color{red}\bfseries},
+   columns=fixed,
+}
+
+\lstdefinelanguage{scala}{
+  alsoletter={@},
+  morekeywords={, abstract, case, catch, choose, class, def, do, else, extends, final, finally, for, if, implicit, import, match, new, null, object, let, in, be, lazy,holds,@erasable,
+override, package, private, protected, requires, ensures, decreases, return, sealed, super, then, this, throw, trait, try, type, val, var, while, yield, domain, template, assume, fun,
+postcondition, precondition,invariant, constraint, assert, each, _, return, @generator, @ghost, ghost, @opaque, @extern, ensure, require, ensuring, assuming, asserting, reads,
+modifies, check, }
+  sensitive=true,
+  columns=fullflexible,
+  basicstyle={\footnotesize\ttfamily\ourlstcolor},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]"
+}
+\definecolor{verydarkblue}{RGB}{0,20,80}
+\definecolor{verydarkgreen}{RGB}{0,80,20}
+\newcommand{\ourlstcolor}{\color{verydarkblue}}
+\lstset{
+  language=scala,
+  breakatwhitespace=true,
+  breaklines=true,
+  tabsize=2,
+%  basicstyle={\ourlstcolor},
+  % basicstyle={\small\sffamily\ourlstcolor},
+  % basicstyle={\small\ttfamily},
+  % numbers=none,
+  commentstyle={\it\color{verydarkgreen}},
+  % stringstyle=\color{mauve}
+  % keywordstyle=\color{blue}\bfseries,
+  % basicstyle=\ttfamily\color{red},
+  % numberstyle=\color{black},
+  mathescape=true,
+  showstringspaces=false,
+}
+\lstMakeShortInline[columns=fullflexible]| % Has to come after `todonotes`
+
+\newcommand{\SAND}{\mbox{\tt \&\&}\xspace}
+\newcommand{\SOR}{\mbox{\tt ||}\xspace}
+\newcommand{\MOD}{\mbox{\tt \%}\xspace}
+\newcommand{\DIV}{\mbox{\tt /}\xspace}
+\newcommand{\PP}{\mbox{\tt ++}\xspace}
+\newcommand{\PEQ}{\mbox{\tt +=}\xspace}
+\newcommand{\MEQ}{\mbox{\tt -=}\xspace}
+\newcommand{\MM}{\mbox{\tt {-}{-}}\xspace}
+\newcommand{\RA}{\Rightarrow}
+\newcommand{\EQ}{\mbox{\tt ==}}
+\newcommand{\NEQ}{\mbox{\tt !=}}
+\newcommand{\SLE}{\ensuremath{\leq}}
+\newcommand{\SGE}{\ensuremath{\geq}}
+\newcommand{\SGT}{\mbox{\tt >}}
+\newcommand{\SLT}{\mbox{\tt <}}
+\newcommand{\rA}{\rightarrow}
+\newcommand{\lA}{\leftarrow}
+
