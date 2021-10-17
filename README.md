@@ -3,7 +3,8 @@
 [A Six Page Tutorial Write-Up](Stainless-Tutorial-FMCAD2021.pdf)
 
 Stainless GitHub page:
-  * https://github.com/epfl-lara/stainless/ 
+  * Main repo: https://github.com/epfl-lara/stainless/ 
+  * [Linux Release 0.9.1 for Scala 2.13](https://github.com/epfl-lara/stainless/releases/download/v0.9.1/stainless-scalac-standalone-0.9.1-linux.zip), tested mostly with [JDK 1.8.0](https://openjdk.java.net/install/)
   * [Examples](https://github.com/epfl-lara/stainless/tree/master/frontends/benchmarks)
   * [List library](https://github.com/epfl-lara/stainless/blob/master/frontends/library/stainless/collection/List.scala)
 
@@ -30,3 +31,8 @@ Also of interest may be examples in the [Bolts repository](https://github.com/ep
 
   * [Binary Search](BinarySearch1.scala)
 
+## Additional Labs from EPFL course
+  * [FV 2021 Lab 1](https://gitlab.epfl.ch/lara/cs550/-/tree/main/labs/lab01)
+  * [FV 2021 Lab 2](https://gitlab.epfl.ch/lara/cs550/-/tree/main/labs/lab02)
+  * [FV 2021 Lab 3](https://gitlab.epfl.ch/lara/cs550/-/tree/main/labs/lab03)
+  * [FV 2020 Lab 2](https://lara.epfl.ch/w/fv20/labs02)
