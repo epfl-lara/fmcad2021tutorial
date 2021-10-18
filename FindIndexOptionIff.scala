@@ -26,8 +26,8 @@ object FindIndexOptionIff {
         i = i + 1
         assert(0 <= i && i <= N && a.length == N && (i == 0 || notPresent(i - 1, a, t)))
       }).invariant(0 <= i && i <= N && a.length == N && (i == 0 || notPresent(i - 1, a, t)))
-      None[Int]
-    } else None[Int]
+      None[Int]()
+    } else None[Int]()
 
   } ensuring((res: Option[Int]) =>
     (res match {

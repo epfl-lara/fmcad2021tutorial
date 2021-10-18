@@ -1,16 +1,17 @@
 \section{Termination}
 
-The following recursive function searches for an element in a sorted array, but
-it has a bug. You may run Stainless on this file to spot it. Fix the issue, and
-add a |decreases| clause at the beginning of the function to ensure that Stainless
-can prove the function terminating.
-
-\lstinputlisting{BinarySearch1.scala}
-
 In Stainless, all functions are required to have a measure (either inferred
 automatically, or written in a |decreases| clause by the user). The system in
 its current design would be unsound (we would be able to prove false postconditions
 or assertions) if we allowed non-terminating functions.
+
+The following recursive function searches for an element in a sorted array.
+Add a |decreases| clause at the beginning of the function to ensure that
+Stainless can prove the function terminating.
+By running Stainless, you'll notice that this function has a bug that you will need
+to fix. You may have to add a |require| clause to restrict the function's inputs.
+
+\lstinputlisting{BinarySearch1.scala}
 
 
 \section{Imperative Features}
@@ -51,7 +52,7 @@ that removes while loops and return statements. The |--debug-objects| option tel
 Stainless to only display the |findIndexOpt| function in the debug output.
 
 \begin{lstlisting}
-stainless --debug=trees --debug-objects=findIndexOpt --debug-phases=ReturnElimination FindIndex.scala
+stainless --batched --debug=trees --debug-objects=findIndexOpt --debug-phases=ReturnElimination FindIndex.scala
 \end{lstlisting}
 
 As a harder exercise, identify and prove a stronger postcondition of |findIndexOpt|:

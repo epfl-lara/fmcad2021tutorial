@@ -32,7 +32,7 @@ with the two provided values computes using signed 32-bit arithmetic the value |
 so the function returns |y| as the result |res| so |y <= res| is false.
 We can repair this example in at least two ways:
 \begin{itemize}
-\item Use |if (x <= y)| instead of the value |d|.
+\item Use |if (x >= y)| instead of the value |d|.
 \item Use |BigInt| instead of |Int|, thus adopting unbounded integers instead signed 32-bit ones.
 \end{itemize}
 If you run your program several times, you may notice that Stainless reports that a valid verification
@@ -46,7 +46,7 @@ Stainless to interact with |z3| through Java calls. You may also use an external
 |z3| (for instance, |z3 4.8.12| is shipped with the release) by specifying |--solvers=smt-z3|.
 In that case, Stainless will communicate with |z3| using SMT-LIB files, which might be slower than
 Java calls, but has two benefits. First, you get to use the newest release of |z3|. Second,
-|smt-z3| is more likely to respect timeouts than |nativez3|.
+|smt-z3| is more likely to respect the Stainless timeout option than |nativez3|.
 
 You can also use CVC4 as the solver if you download and put |cvc4| executable on your path.
 You can use both with |--solvers=smt-cvc4,smt-z3|. Use |--debug=smt| to preserve the
