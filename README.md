@@ -1,6 +1,6 @@
 # Stainless Verification System Tutorial by Viktor Kuncak and Jad Hamza, FMCAD 2021
 
-[A Six Page Tutorial Write-Up](Stainless-Tutorial-FMCAD2021.pdf)
+[A Six Page Tutorial Write-Up](Stainless-Tutorial-FMCAD2021.pdf) and [slides](slides.pdf)
 
 Stainless GitHub page:
   * Main repo: https://github.com/epfl-lara/stainless/ 
